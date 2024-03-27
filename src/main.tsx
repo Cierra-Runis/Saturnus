@@ -1,36 +1,33 @@
 import React from 'react';
 import {BottomNavigation} from 'react-native-paper';
 import {HomePage} from './pages/home_page';
-import {NotificationsPage} from './pages/notifications_page';
-import {AccountPage} from './pages/recents_route';
+import {FavouritePage} from './pages/favourite_route';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {DaiKanWaDetailPage as DaiKanWaDetailPage} from './pages/daiKanWaDetailPage';
 
-export function RootPage() {
+const Stack = createNativeStackNavigator();
+
+function _RootPage() {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {
-      key: 'music',
+      key: 'home',
       title: '主页',
       focusedIcon: 'home',
       unfocusedIcon: 'home-outline',
     },
     {
-      key: 'notifications',
-      title: '消息',
-      focusedIcon: 'bell',
-      unfocusedIcon: 'bell-outline',
-    },
-    {
-      key: 'account',
-      title: '个人',
-      focusedIcon: 'account',
-      unfocusedIcon: 'account-outline',
+      key: 'favouritePage',
+      title: '收藏',
+      focusedIcon: 'heart',
+      unfocusedIcon: 'heart-outline',
     },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
-    music: HomePage,
-    notifications: NotificationsPage,
-    account: AccountPage,
+    home: HomePage,
+    favouritePage: FavouritePage,
   });
 
   return (
@@ -39,5 +36,21 @@ export function RootPage() {
       onIndexChange={setIndex}
       renderScene={renderScene}
     />
+  );
+}
+
+export function RootPage() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="root "
+        screenOptions={{headerShown: false}}>
+        <Stack.Screen name="root" component={_RootPage} />
+        <Stack.Screen
+          name="daiKanWaDetailPage"
+          component={DaiKanWaDetailPage}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
