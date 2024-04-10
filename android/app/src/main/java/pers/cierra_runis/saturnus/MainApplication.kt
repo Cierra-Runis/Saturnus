@@ -1,4 +1,4 @@
-package com.saturnus
+package pers.cierra_runis.saturnus
 
 import android.app.Application
 import com.facebook.react.PackageList

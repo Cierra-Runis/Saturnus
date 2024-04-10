@@ -41,8 +41,6 @@ type ProfileScreenNavigationProp = NativeStackNavigationProp<
 function DaiKanWaCard({word}: {word: string}) {
   const navigator = useNavigation<ProfileScreenNavigationProp>();
 
-  console.log(word);
-
   const {data, error, isLoading} = useSWR<DaiKanWa>(
     `https://raw.githubusercontent.com/Cierra-Runis/EnglishWords/main/json/${word}.json`,
     fetcher,
@@ -55,8 +53,6 @@ function DaiKanWaCard({word}: {word: string}) {
   if (isLoading) {
     return <ActivityIndicator />;
   }
-
-  console.log(data);
 
   return (
     <Card

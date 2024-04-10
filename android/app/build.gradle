@@ -83,9 +83,9 @@ android {
         }
     }
 
-    namespace "com.saturnus"
+    namespace "pers.cierra_runis.saturnus"
     defaultConfig {
-        applicationId "com.saturnus"
+        applicationId "pers.cierra_runis.saturnus"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

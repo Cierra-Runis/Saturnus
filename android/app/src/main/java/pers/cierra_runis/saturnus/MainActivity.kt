@@ -1,4 +1,4 @@
-package com.saturnus
+package pers.cierra_runis.saturnus
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity
@@ -19,6 +19,11 @@ class MainActivity : ReactActivity() {
    */
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(null)
+
+    if (display != null) {
+      val mode = display!!.supportedModes.maxBy { it.refreshRate }
+      window.attributes.preferredDisplayModeId = mode.modeId
+    }
   }
 
   /**
