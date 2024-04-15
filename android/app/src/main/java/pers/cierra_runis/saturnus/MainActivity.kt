@@ -1,6 +1,6 @@
 package pers.cierra_runis.saturnus
 
-import android.os.Bundle;
+import android.os.*
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
@@ -20,7 +20,7 @@ class MainActivity : ReactActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(null)
 
-    if (display != null) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && display != null) {
       val mode = display!!.supportedModes.maxBy { it.refreshRate }
       window.attributes.preferredDisplayModeId = mode.modeId
     }
