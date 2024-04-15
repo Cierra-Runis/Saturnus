@@ -3,12 +3,13 @@ import {NavigationContainer} from '@react-navigation/native';
 import {DetailPage as DetailPage} from './DetailPage';
 import {BottomNavigation} from 'react-native-paper';
 import {HomePage} from './HomePage';
+import {EnglishWord} from '../models/EnglishWord';
 import {FavouritePage} from './FavouritePage';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   RootPage: undefined;
-  DetailPage: {word: string};
+  DetailPage: {word: EnglishWord};
 };
 
 export const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -36,7 +37,7 @@ export function _RootPage() {
       unfocusedIcon: 'home-outline',
     },
     {
-      key: 'favouritePage',
+      key: 'favourite',
       title: '收藏',
       focusedIcon: 'heart',
       unfocusedIcon: 'heart-outline',
@@ -45,11 +46,12 @@ export function _RootPage() {
 
   const renderScene = BottomNavigation.SceneMap({
     home: HomePage,
-    favouritePage: FavouritePage,
+    favourite: FavouritePage,
   });
 
   return (
     <BottomNavigation
+      sceneAnimationEnabled
       navigationState={{index, routes}}
       onIndexChange={setIndex}
       renderScene={renderScene}

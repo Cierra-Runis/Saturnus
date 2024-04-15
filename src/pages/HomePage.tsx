@@ -13,6 +13,8 @@ import {App} from '../common/common';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from './RootPage';
+import {EnglishWord} from '../models/EnglishWord';
+import Scaffold from './Scaffold';
 
 async function fetcher<JSON = any>(
   input: RequestInfo,
@@ -20,17 +22,6 @@ async function fetcher<JSON = any>(
 ): Promise<JSON> {
   const res = await fetch(input, init);
   return res.json();
-}
-
-interface Translation {
-  translation: string;
-  types: Array<string>;
-}
-
-export interface DaiKanWa {
-  word: string;
-  levels: Array<string>;
-  translations: Array<Translation>;
 }
 
 type ProfileScreenNavigationProp = NativeStackNavigationProp<
@@ -41,7 +32,7 @@ type ProfileScreenNavigationProp = NativeStackNavigationProp<
 function DaiKanWaCard({word}: {word: string}) {
   const navigator = useNavigation<ProfileScreenNavigationProp>();
 
-  const {data, error, isLoading} = useSWR<DaiKanWa>(
+  const {data, error, isLoading} = useSWR<EnglishWord>(
     `https://raw.githubusercontent.com/Cierra-Runis/EnglishWords/main/json/${word}.json`,
     fetcher,
   );
@@ -57,7 +48,7 @@ function DaiKanWaCard({word}: {word: string}) {
   return (
     <Card
       onPress={() => {
-        navigator.navigate('DetailPage', {word: data!.word});
+        navigator.navigate('DetailPage', {word: data!});
       }}>
       <Card.Title title={data?.word} />
       <Card.Content>
@@ -68,15 +59,15 @@ function DaiKanWaCard({word}: {word: string}) {
             flexDirection: 'row',
             flexWrap: 'wrap',
           }}>
-          {data?.translations.map(e => (
-            <Chip key={e.translation}>
+          {data?.translations.map((e, index) => (
+            <Chip key={index}>
               {e.types.join('.')}. {e.translation}
             </Chip>
           ))}
         </View>
       </Card.Content>
       <Card.Actions>
-        <Button onPress={() => {}} icon="heart">
+        <Button onPress={() => {}} icon="heart-outline">
           <Text>收藏</Text>
         </Button>
       </Card.Actions>
@@ -102,28 +93,34 @@ export const HomePage = () => {
   }
 
   return (
-    <>
-      <Appbar.Header>
-        <Appbar.Content
-          title={
-            <Text style={{fontSize: 24, fontWeight: 'bold'}}>{App.name}</Text>
-          }
-        />
-        <Appbar.Action icon="rocket" onPress={scrollToTop} />
-      </Appbar.Header>
-      {isLoading ? (
-        <ActivityIndicator />
-      ) : (
-        <FlatList
-          ref={ref}
-          data={data}
-          renderItem={({item: word}) => (
-            <View style={{padding: 16}}>
-              <DaiKanWaCard word={word} />
-            </View>
-          )}
-        />
-      )}
-    </>
+    <Scaffold
+      appbar={
+        <Appbar.Header>
+          <Appbar.Content
+            title={
+              <Text style={{fontSize: 24, fontWeight: 'bold'}}>{App.name}</Text>
+            }
+          />
+          <Appbar.Action icon="rocket" onPress={scrollToTop} />
+        </Appbar.Header>
+      }
+      body={
+        isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <FlatList
+            ref={ref}
+            data={shuffle(data ?? [])}
+            renderItem={({item: word}) => (
+              <View style={{padding: 16}}>
+                <DaiKanWaCard word={word} />
+              </View>
+            )}
+          />
+        )
+      }
+    />
   );
 };
+
+const shuffle = (array: Array<any>) => array.sort(() => Math.random() - 0.5);

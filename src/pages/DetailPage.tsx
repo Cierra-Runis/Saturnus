@@ -1,11 +1,11 @@
-import {Appbar, FAB, Text, useTheme} from 'react-native-paper';
+import {Appbar, Card, FAB, List, Text, useTheme} from 'react-native-paper';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {StyleSheet} from 'react-native';
 
 import React from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import ScreenWrapper from './ScreenWrapper';
 import {RootStackParamList} from './RootPage';
+import Scaffold from './Scaffold';
+import {ScrollView, StyleSheet} from 'react-native';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'DetailPage'>;
 
@@ -17,54 +17,70 @@ export function DetailPage({route, navigation}: Props) {
   const {bottom} = useSafeAreaInsets();
   const theme = useTheme();
 
-  return (
-    <>
-      <Appbar.Header safeAreaInsets={{top: 0}}>
-        <Appbar.BackAction onPress={navigation.goBack} />
-        <Appbar.Content title="Title" />
-        <Appbar.Action icon="calendar" onPress={() => {}} />
-        <Appbar.Action icon="magnify" onPress={() => {}} />
-      </Appbar.Header>
-      <ScreenWrapper>
-        <Text>{word}</Text>
-      </ScreenWrapper>
+  console.log(word.phrases);
 
-      <Appbar
-        style={[
-          styles.bottom,
-          {
-            height: BOTTOM_APPBAR_HEIGHT + bottom,
-            backgroundColor: theme.colors.elevation.level2,
-          },
-        ]}
-        safeAreaInsets={{bottom}}>
-        <Appbar.Action icon="archive" onPress={() => {}} />
-        <Appbar.Action icon="email" onPress={() => {}} />
-        <Appbar.Action icon="label" onPress={() => {}} />
-        <Appbar.Action icon="delete" onPress={() => {}} />
-        <FAB
-          mode="flat"
-          size="medium"
-          icon="plus"
-          onPress={() => {}}
+  return (
+    <Scaffold
+      appbar={
+        <Appbar.Header>
+          <Appbar.BackAction onPress={navigation.goBack} />
+          <Appbar.Content title={word.word} />
+          <Appbar.Action icon="calendar" onPress={() => {}} />
+          <Appbar.Action icon="magnify" onPress={() => {}} />
+        </Appbar.Header>
+      }
+      body={
+        <ScrollView>
+          <Card style={{margin: 8}}>
+            <Card.Title title="释义" titleVariant="titleLarge" />
+            <Card.Content>
+              {word.translations.map(e => (
+                <List.Item
+                  left={() => <Text>{e.types.join('. ')}.</Text>}
+                  title={e.translation}
+                />
+              ))}
+            </Card.Content>
+          </Card>
+          {word.phrases.length > 0 && (
+            <Card style={{margin: 8}}>
+              <Card.Title title="短语" titleVariant="titleLarge" />
+              <Card.Content>
+                {word.phrases.map(e => (
+                  <List.Item title={e.phrase} description={e.translation} />
+                ))}
+              </Card.Content>
+            </Card>
+          )}
+        </ScrollView>
+      }
+      bottomNavigation={
+        <Appbar
           style={[
-            styles.fab,
-            {top: (BOTTOM_APPBAR_HEIGHT - MEDIUM_FAB_HEIGHT) / 2},
-          ]}
-        />
-      </Appbar>
-    </>
+            {
+              height: BOTTOM_APPBAR_HEIGHT + bottom,
+              backgroundColor: theme.colors.elevation.level2,
+            },
+          ]}>
+          <Appbar.Action icon="archive" onPress={() => {}} />
+          <Appbar.Action icon="label" onPress={() => {}} />
+          <FAB
+            mode="flat"
+            size="medium"
+            icon="heart-outline"
+            onPress={() => {}}
+            style={[
+              styles.fab,
+              {top: (BOTTOM_APPBAR_HEIGHT - MEDIUM_FAB_HEIGHT) / 2},
+            ]}
+          />
+        </Appbar>
+      }
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  bottom: {
-    backgroundColor: 'aquamarine',
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
   fab: {
     position: 'absolute',
     right: 16,

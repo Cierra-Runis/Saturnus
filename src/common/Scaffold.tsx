@@ -6,12 +6,11 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {useTheme, Appbar} from 'react-native-paper';
+import {useTheme} from 'react-native-paper';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import * as React from 'react';
 
 type Props = ScrollViewProps & {
-  appbar: Appbar;
   children: React.ReactNode;
   withScrollView?: boolean;
   style?: StyleProp<ViewStyle>;
