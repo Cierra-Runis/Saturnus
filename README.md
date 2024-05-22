@@ -44,6 +44,6 @@
 
 # 🔦 声明
 
-[![License](https://img.shields.io/github/license/Cierra-Runis/Saturnus)](https://github.com/Cierra-Runis/Saturnus/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/Cierra-Runis/Saturnus)](https://github.com/Cierra-Runis/Saturnus/blob/main/LICENSE)
 
 该项目采用 `GPL-3.0` 许可协议，查看 [LICENSE](https://github.com/Cierra-Runis/Saturnus/blob/main/LICENSE) 以获得更多信息
