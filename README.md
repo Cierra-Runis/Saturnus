@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img id="Saturnus" width="96" alt="Saturnus" src=".github/image/icon.svg">
+  <img id="Saturnus" width="96" alt="Saturnus" src=".github/image/icon.png">
 
   <p>『 Saturnus - 每天一字！』</p>
 
